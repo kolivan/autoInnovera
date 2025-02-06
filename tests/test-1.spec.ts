@@ -1,0 +1,34 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://dashboard-development.innovera.ai/dashboard');
+  await page.goto('https://dashboard-development.innovera.ai/sign-in?next=%2Fdashboard');
+  await page.locator('div').filter({ hasText: /^Email$/ }).getByRole('textbox').click();
+  await page.locator('div').filter({ hasText: /^Email$/ }).getByRole('textbox').fill('investorA@innovera.ai');
+  await page.locator('div').filter({ hasText: /^Password$/ }).click();
+  await page.locator('input[type="password"]').fill('qweASD123');
+  await page.getByRole('button', { name: 'Log In' }).click();
+  await page.getByRole('button', { name: 'demo pipeline' }).click();
+  await page.locator('._option_1c4ky_142 > ._btn_10edt_1').first().click();
+  await page.getByRole('button', { name: 'Add Stage' }).click();
+  await page.getByPlaceholder('Name').click();
+  await page.getByPlaceholder('Name').fill('new test p');
+  await page.getByPlaceholder('Select Stage').click();
+  await page.getByText('Inbox').nth(1).click();
+  await page.getByRole('button', { name: 'Add stage', exact: true }).click();
+  await page.getByRole('button', { name: 'demo pipeline' }).click();
+  await page.getByRole('button', { name: 'Add Pipeline' }).click();
+  await page.getByPlaceholder('Pipeline name').click();
+  await page.getByPlaceholder('Pipeline name').fill('test p');
+  await page.getByRole('button', { name: 'Add Pipeline' }).click();
+  await page.getByRole('button', { name: 'test p' }).click();
+  await page.locator('._option_1c4ky_142 > ._btn_10edt_1').first().click();
+  await page.getByRole('button', { name: 'Delete Pipeline' }).click();
+  await page.getByRole('button', { name: 'Delete', exact: true }).click();
+  await page.locator('._container_1c4ky_1').click();
+  await page.getByRole('button', { name: 'Add Companies' }).click();
+  await page.locator('label').click();
+  await page.locator('body').setInputFiles('X-energy Teaser Deck (2).pdf');
+  await page.locator('#addCompaniesModal-confirmButton').click();
+  await expect(page.locator('#columnsWrapperId')).toContainText('X-energy Teaser Deck (2).pdf');
+});

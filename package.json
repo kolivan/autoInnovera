@@ -1,0 +1,22 @@
+{
+  "name": "innoveraauto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "stage": "export ENV='stage' npx playwright test",
+    "prod": "npx playwright test --config=configs/prod.config.js signIn.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.46.0",
+    "@types/node": "^22.1.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "playwright-testrail-reporter": "^1.2.1",
+    "testrail-api": "^1.3.6"
+  }
+}
