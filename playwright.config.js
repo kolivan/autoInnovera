@@ -7,6 +7,7 @@ const { defineConfig, devices } = require('@playwright/test');
  */
 // require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const dotenv = require('dotenv');
+dotenv.config({ path: '.env', override: true });
 dotenv.config({ path: `.env.${process.env.ENV || 'stage'}` });
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -49,7 +50,7 @@ module.exports = {
     /*{
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
-    },
+    },*/
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },

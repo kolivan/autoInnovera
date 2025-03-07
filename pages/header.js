@@ -2,9 +2,11 @@ import { Page } from "@playwright/test";
 
 exports.Header = class Header {
     constructor(page) {
-        this.discoverTab = page.getByText('Discover');
-        this.pipelineTab = page.getByText('Pipeline');
-        this.portfolioTab = page.getByText('Portfolio');
+        this.discoverTab = page.locator('#innoveraHeader-investor-discoverButton');
+        this.pipelineTab = page.locator('#innoveraHeader-investor-pipelineButton');
+        this.settingIcon = page.locator('#innoveraHeader-settingsMenuButton');
+        this.profileIcon = page.locator('#innoveraHeader-avatar');
+        this.logoutButton = page.locator('#innoveraHeader-logoutButton');
     }
 
     async openDiscoverPageFromHeader() {
@@ -19,4 +21,12 @@ exports.Header = class Header {
         await this.portfolioTab.click();
     }
 
+    async openSettingsPage() {
+        await this.settingIcon.click();
+    }
+
+    async logoutFromApp() {
+        await this.profileIcon.click();
+        await this.logoutButton.click();
+    }
 }
