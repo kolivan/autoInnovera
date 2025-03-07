@@ -1,9 +1,11 @@
 const { test, expect } = require('@playwright/test');
 const { SigninPage } = require('../pages/signInPage');
 const { EmailClient } = require('../utils/mailinator');
+const {generatedRegistrationData} = require('../test-data/userData');
 
 let signinPage;
 let testEmail;
+const userData = generatedRegistrationData();
 
 
 test.beforeEach(async ({ page }) => {
@@ -34,18 +36,18 @@ test('C23: Open Forgot password Page', async ({ page }) => {
   await expect(page).toHaveURL(new RegExp('/.*\/forgot-password/*'));
 });
 
-test('C24: Reset password', async ({ page }) => {
+test.only('C24: Reset password', async ({ page }) => {
+  testEmail = new EmailClient();
   await signinPage.openForgotPasswordPage();
   await expect(page).toHaveURL(new RegExp('/.*\/forgot-password/*'));
   await signinPage.requestResetPasswordLink(process.env.FORGOT_PASSWORD_USER);
   await expect(page.getByText('If an Innovera account exists for '+process.env.FORGOT_PASSWORD_USER+', an email will be sent with further instructions. ')).toBeVisible();
   await page.waitForTimeout(500);
-  testEmail = new EmailClient();
   const emailid = await testEmail.getEmailId();
   const emailRestorePwdLink = await testEmail.getRestorePasswordLinkFomEmail(emailid);
   await page.goto(emailRestorePwdLink);
   await expect(page).toHaveURL(new RegExp('/.*\/reset-password*'));
-  const newPassword = 'qweASD123';
+  const newPassword = userData.randomPassword;
   await signinPage.restorePassword(newPassword,newPassword);
   await expect(page.getByText('Great! Please log in with your new password')).toBeVisible()
   await expect(page).toHaveURL(new RegExp('/.*\/sign-in*'));

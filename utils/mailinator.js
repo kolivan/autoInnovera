@@ -15,9 +15,8 @@ exports.EmailClient = class EmailClient {
      },
     })
     const responceBody = await response.text();
-
     console.log(responceBody);
-    return  responceBody;
+    return responceBody;
    }
 
    async getEmailId() {
@@ -27,13 +26,12 @@ exports.EmailClient = class EmailClient {
      params: {
         token: '1199bbe13bba45c29f0b3501205c799a'
      },
-    })
-    const responceBody = await response.text();
+    });
     const jsonObject = await response.json();
     console.log(jsonObject);
-    const id = jsonObject.msgs[0].id;
+    const id = await jsonObject.msgs[0].id;
     console.log(id);
-    return  id;
+    return id;
    }
 
    async getRegistrationLinkFomEmail(emailId) {
@@ -62,7 +60,9 @@ exports.EmailClient = class EmailClient {
        },
       })
       const jsonObject = await response.json();
+      console.log('jsonObject = ',jsonObject);
       const links = jsonObject.links;
+      console.log('links = ',links);
       const resetPasswordpUrl = links.find(link => link.includes("reset-password"));
    
       console.log('link = ',links);
