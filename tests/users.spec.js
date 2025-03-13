@@ -17,6 +17,5 @@ test('C89: Open users page', async ({ page }) => {
     await usersPage.openUsersPageFromHeader();
     await page.waitForTimeout(300);
     await expect(page.getByRole('button', { name: 'Add User' })).toBeVisible();
-       //await expect(page.locator('#pipelineDropdown > button')).toContainText('New auto pipeline');
 });
 

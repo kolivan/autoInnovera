@@ -1,9 +1,13 @@
 const { test, expect } = require('@playwright/test');
 const { DiscoverPage } = require('../pages/discoverPage');
 const { SigninPage } = require('../pages/signInPage');
+const { generatedUserData } = require('../test-data/userData');
+
+
 
 let signinPage;
 let discoverPage;
+const userData = generatedUserData();
 
 test.beforeEach(async ({ page }) => {
   signinPage = new SigninPage(page);
@@ -119,6 +123,28 @@ test('C68: Search existing company', async ({ page }) => {
     await discoverPage.filterByDescription('Uber');
     await discoverPage.numberOfCompanies.waitFor();
     await expect(discoverPage.numberOfCompanies).toContainText('1-50 of 61');
+});
+
+test('C81: Add tag to one company', async ({ page }) => {
+    await discoverPage.open();
+    await page.waitForLoadState('networkidle');
+    const newTag = userData.randomTag;
+    await discoverPage.addTag(newTag);
+    await expect(page.getByText('Tags assigned successfully')).toBeVisible();
+    await page.getByText('Broadcom Limited').nth(2).click();
+    await expect(page.locator('div').filter({ hasText: newTag }).nth(1)).toBeVisible();
+});
+
+test('C83: Add one tag to several companies', async ({ page }) => {
+    await discoverPage.open();
+    await discoverPage.selectTwoCompanies();
+    await expect(discoverPage.addTagButton).toBeDisabled();
+});
+
+test('C134: Delete a tag', async ({ page }) => {
+    await discoverPage.open();
+    await discoverPage.deleteTag();
+    await expect(page.getByText('Tags assigned successfully')).toBeVisible();
 });
 
 test('C69: Search not-existing company', async ({ page }) => {

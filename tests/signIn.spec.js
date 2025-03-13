@@ -1,11 +1,11 @@
 const { test, expect } = require('@playwright/test');
 const { SigninPage } = require('../pages/signInPage');
 const { EmailClient } = require('../utils/mailinator');
-const {generatedRegistrationData} = require('../test-data/userData');
+const {generatedUserData} = require('../test-data/userData');
 
 let signinPage;
 let testEmail;
-const userData = generatedRegistrationData();
+const userData = generatedUserData();
 
 
 test.beforeEach(async ({ page }) => {
@@ -36,7 +36,7 @@ test('C23: Open Forgot password Page', async ({ page }) => {
   await expect(page).toHaveURL(new RegExp('/.*\/forgot-password/*'));
 });
 
-test.only('C24: Reset password', async ({ page }) => {
+test('C24: Reset password', async ({ page }) => {
   testEmail = new EmailClient();
   await signinPage.openForgotPasswordPage();
   await expect(page).toHaveURL(new RegExp('/.*\/forgot-password/*'));

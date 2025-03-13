@@ -1,11 +1,13 @@
 const { test, expect } = require('@playwright/test');
-const { PipelinePage } = require('../pages/pipelinePage');
 const { SigninPage } = require('../pages/signInPage');
 const { ProfilePage } = require('../pages/profilePage');
+const {generatedUserData} = require('../test-data/userData');
+
 
 let signinPage;
 let pipelinePage;
 let profilePage;
+const userData = generatedUserData();
 
 test.beforeEach(async ({ page }) => {
   signinPage = new SigninPage(page);
@@ -23,26 +25,18 @@ test('C85: Open profile page', async ({ page }) => {
 test('C88: Change BIO', async ({ page }) => {
     await profilePage.openProfilePageFromHeader();
     await expect(profilePage.editNameButton).toBeVisible;
-    let newBio = 'New bio';
-    let secondBio = 'Test bio';
+    let newBio = userData.randomBio;
     await profilePage.editBio(newBio);
     await expect(profilePage.savedBio).toHaveText(newBio);
-    await page.waitForTimeout(200);
-    await profilePage.editBio(secondBio);
-    await expect(profilePage.savedBio).toHaveText(secondBio);
   });
 
   test('C87:   Change Name and Last name', async ({ page }) => {
     await profilePage.openProfilePageFromHeader();
     await expect(profilePage.editNameButton).toBeVisible;
-    let newFirstName = 'Mia';
-    let newLastName = 'Test';
-    let secondFirstName = 'Sara';
-    let secondLastName = 'Ko';
+    let newFirstName = userData.randomFirstName;
+    let newLastName = userData.randomLastName;
     await profilePage.editPersonaInfo(newFirstName,newLastName);
     await expect(profilePage.savedPersonalInfo).toHaveText(newFirstName + ' ' + newLastName);
-    await profilePage.editPersonaInfo(secondFirstName,secondLastName);
-    await expect(profilePage.savedPersonalInfo).toHaveText(secondFirstName + ' ' + secondLastName);
   });
 
   test('C92: Logout from app', async ({ page }) => {

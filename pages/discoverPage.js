@@ -28,6 +28,10 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
         this.filterByDescriptionInput = page.locator('#discoverPage-filtersV2-descriptionInput');
         this.applyFilterButton = page.locator('#discoverPage-filtersV2-saveButton');
         this.numberOfCompanies = page.locator('#discoverPage-pagination-companiesPool');
+        this.addTagButton = page.locator('#discoverPage-tagButton');
+        this.tagSaveButton = page.getByRole('button', { name: 'Save' });
+        this.addTagField = page.getByPlaceholder('Add tags');
+        this.deleteTagIcon = page.locator('#root > div._Modal_1ypr0_3._isOpen_1ypr0_74 > div > div > div._modalContent_1ypr0_117 > div:nth-child(1) > div._tagList_i1usn_23 > div > svg');
     }
 
     async openDiscoverPageFromHeader(){
@@ -68,8 +72,29 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
         await this.filterButton.click();
     }
 
+    async selectTwoCompanies(){
+        await this.firstCheckboxSelector.click();
+        await this.secondCheckBoxSelector.click();
+    }
+
     async filterByDescription(description){
         await this.filterByDescriptionInput.fill(description);
         await this.applyFilterButton.click();
+    }
+
+    async addTag(tag){
+        await this.firstCheckboxSelector.click();
+        await this.addTagButton.click();
+        await this.addTagField.fill(tag);
+        await this.addTagField.press('Enter');
+        await this.page.waitForTimeout(200);
+        await this.tagSaveButton.click();
+    }
+
+    async deleteTag(){
+        await this.firstCheckboxSelector.click();
+        await this.addTagButton.click();
+        await this.deleteTagIcon.click();
+        await this.tagSaveButton.click();
     }
 }

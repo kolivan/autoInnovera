@@ -1,12 +1,15 @@
 import { faker } from '@faker-js/faker';
 
-function generatedRegistrationData() {
+function generatedUserData() {
     return{
     randomFirstName : faker.person.firstName(),
     randomLastName : faker.person.lastName(),
     randomOrgName : faker.company.name(),
     randomPassword: faker.internet.password(),
+    randomBio: faker.person.bio(),
+    randomTag: faker.word.noun(),
+    randomStageName: faker.word.noun() 
     }
 }
 
-exports.generatedRegistrationData = generatedRegistrationData;
+exports.generatedUserData = generatedUserData;

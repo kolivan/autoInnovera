@@ -8,25 +8,25 @@ exports.PipelinePage = class PipelinePage extends BasePage {
     constructor(page) {
         super(page, '/dashboard');
         header = new Header(page);
-        this.pipelineSelector = page.locator('#pipelineDropdown > button');
+        this.pipelineSelector = page.locator('//*[@id="pipelinePage-pipelineDropdown"]/button');
         this.addPipeline = page.getByRole('button', { name: 'Add Pipeline' });
         this.pipelineNameInput = page.getByPlaceholder('Pipeline name');
         this.addPipelineButton = page.getByRole('button', { name: 'Add Pipeline' }).nth(1);
         this.addStageButton = page.locator('#pipelinePage-addStageButton');
         this.stageName = page.getByPlaceholder('Name');
-        this.placeAfterStageDropDown = page.getByPlaceholder('Select Stage')
+        this.placeAfterStageDropDown = page.locator('#root > div._Modal_1ypr0_3._isOpen_1ypr0_74 > div > div > div._modalContent_1ypr0_117 > div:nth-child(1) > div._placeAfterContainer_1v0h6_15 > div > div._inputContainer_1122h_6 > div > svg')
         this.inboxStageInDropDown = page.getByText('Inbox').nth(1);
         this.addStageButtonOnModal = page.getByRole('button', { name: 'Add stage' }).nth(1);
         this.addCompanyButton = page.locator('#pipelinePage-addCompaniesOrangeButton');
         this.addCompanyConfirmationButton = page.locator('#addCompaniesModal-confirmButton');
-        this.fileUploadButton = page.locator('#file-upload');
+        this.fileUploadButton = page.locator('label[for="file-upload"]');
         this.newStageNameInput = page.getByPlaceholder('Name');  
         this.docSendLinkButton = page.getByRole('button', { name: '🔗 DocSend Link' });
-        this.docSendLinkInput = page.locator('#addCompaniesModal-docSendUrlModal-input');
-        this.addDocSendButton = page.locator('#addCompaniesModal-docSendUrlModal-saveButton');
+        this.docSendLinkInput = page.getByPlaceholder('Paste DocSend URL here');
+        this.addDocSendButton = page.locator('//*[@id="root"]/div[3]/div/div/div[2]/div/div[2]/button[1]');
         this.archiveIcon = page.locator('#pipelinePage-archiveButton');
         this.stageMenuButton = page.locator('#pipelinePage-columnContextMenuButton').nth(1);
-        this.renameStageButton = page.getByText('Rename');
+        this.renameStageButton = page.locator('//*[@id="columnsWrapperId"]/div[2]/div[2]/div[1]/div/div');
         this.deleteStage = page.getByText('Delete');
         this.stageNameInput = page.getByPlaceholder('Provide a new name for stage');
         this.saveStageNameButton = page.getByRole('button', { name: 'Save' });
@@ -63,10 +63,8 @@ exports.PipelinePage = class PipelinePage extends BasePage {
     async addCompanyByDockSendLink(link) {
         await this.addCompanyButton.click();
         await this.docSendLinkButton.click();
-        await this.waitForTimeout(200);
         await this.docSendLinkInput.fill(link);
         await this.addDocSendButton.click();
-        await this.waitForTimeout(200);
         await this.addCompanyConfirmationButton.click();
     }
 
@@ -79,8 +77,9 @@ exports.PipelinePage = class PipelinePage extends BasePage {
 
     async addNewStage(stageName) {
         await this.addStageButton.click();
-        await this.stageName.fill(stageName);
         await this.page.waitForTimeout(200);
+        await this.stageName.fill(stageName);
+        //await this.placeAfterStageDropDown.click();
         await this.placeAfterStageDropDown.click();
         await this.inboxStageInDropDown.click();
         await this.addStageButtonOnModal.click();

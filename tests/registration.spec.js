@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { RegistrationPage } = require('../pages/registrationPage');
-const {generatedRegistrationData} = require('../test-data/userData');
+const {generatedUserData} = require('../test-data/userData');
 const { EmailClient } = require('../utils/mailinator');
 const { UsersPage } = require('../pages/usersPage');
 const { ExpertsPage } = require('../pages/expertsPage');
@@ -12,7 +12,7 @@ let usersPage;
 let expertsPage;
 let testEmail;
 let registrationPage;
-const userData = generatedRegistrationData();
+const userData = generatedUserData();
 
 test('C5: Register a new organization', async ({ page }) => {
     registrationPage = new RegistrationPage(page);
@@ -45,6 +45,7 @@ test('C10: Open registration page', async ({ page }) => {
     const emailid = await testEmail.getEmailId();
     const emailRegistrationLink = await testEmail.getRegistrationLinkFomEmail(emailid);
     await registrationPage.openRegistrationPage(emailRegistrationLink);
+    await page.waitForTimeout(200);
     //await expect(page).toHaveURL(new RegExp('/.*\/dashboard/*'));
 });
 
