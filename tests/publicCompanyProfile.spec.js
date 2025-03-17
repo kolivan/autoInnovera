@@ -45,13 +45,6 @@ test.describe('Public Company Profile Tests', () => {
         await expect(page.locator('div').filter({ hasText: newTag }).nth(1)).toBeVisible();
     });
 
-    test('C137: Delete a tag', async ({ page }) => {
-        await companyPage.open();
-        await page.waitForLoadState('networkidle');
-        await companyPage.deleteTag();
-        await expect(page.locator('#root > div > div > div > div._container_aqqfd_1 > div._headerContainer_aqqfd_11 > div._headerContent_aqqfd_37 > div._container_np2xz_15 > div._block_np2xz_28 > div._tagsContainerBlock_np2xz_149 > div > div._customTagsContainer_np2xz_255 > div > div._container_1y404_1._customTag_1y404_12')).not.toBeVisible();
-    });
-
     test('C104: Click linkedin icon', async ({ page }) => {
         await companyPage.open();
         await page.waitForLoadState('networkidle');
@@ -78,6 +71,13 @@ test.describe('Public Company Profile Tests', () => {
         const popupPage = await popupPromise;
         await popupPage.waitForLoadState('networkidle');
         await expect(popupPage.getByText('50 of 200')).toBeVisible();
+    });
+
+    test('C137: Delete a tag', async ({ page }) => {
+        await companyPage.open();
+        await page.waitForLoadState('networkidle');
+        await companyPage.deleteTag();
+        await expect(page.locator('#root > div > div > div > div._container_aqqfd_1 > div._headerContainer_aqqfd_11 > div._headerContent_aqqfd_37 > div._container_np2xz_15 > div._block_np2xz_28 > div._tagsContainerBlock_np2xz_149 > div > div._customTagsContainer_np2xz_255 > div > div._container_1y404_1._customTag_1y404_12')).not.toBeVisible();
     });
 });
 

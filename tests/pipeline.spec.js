@@ -90,7 +90,7 @@ test.describe('Pipeline Tests', () => {
     test('C228: Add new stage', async ({ page }) => {
         await pipelinePage.open();
         await page.waitForLoadState('networkidle');
-        const newStageName = generatedUserData.randomStageName;
+        const newStageName = userData.randomStageName;
         await pipelinePage.addNewStage(newStageName);
         await expect(page.locator('div').filter({ hasText: newStageName }).nth(1)).toBeVisible();
     });

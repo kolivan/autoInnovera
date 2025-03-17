@@ -79,7 +79,6 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
 
     async filterByDescription(description){
         await this.filterByDescriptionInput.fill(description);
-        await this.applyFilterButton.click();
     }
 
     async addTag(tag){

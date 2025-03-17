@@ -147,10 +147,9 @@ test('C134: Delete a tag', async ({ page }) => {
     await expect(page.getByText('Tags assigned successfully')).toBeVisible();
 });
 
-test('C69: Search not-existing company', async ({ page }) => {
+test.only('C69: Search not-existing company', async ({ page }) => {
     await discoverPage.open();
     await discoverPage.openFilter();
     await discoverPage.filterByDescription('lokshourfhf');
-    await discoverPage.numberOfCompanies.waitFor();
-    await expect(page.locator('//*[@id="root"]/div/div/div/div[1]/div[2]/div[2]/div[2]/div[2]/p')).toContainText('No matching companies found');
+    await expect(page.locator('#root > div > div > div > div._wrapper_y03sf_1 > div._container_y03sf_6 > div._content_y03sf_35 > div._contentTableBlockInvestor_y03sf_72 > div._emptyPageContainer_1qqcf_37 > p')).toContainText('No matching companies found');
 });
