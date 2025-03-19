@@ -28,6 +28,7 @@ test.describe('Pipeline Tests', () => {
         await page.waitForLoadState('networkidle');
         await pipelinePage.addCompanyByUploadingPitchDeck('test-data/pitchDecks/Copy of WaterGuru 200909 (1).pptx');
         await expect(page.getByText('Copy of WaterGuru 200909 (1).pptx')).toBeVisible();
+        await page.waitForTimeout(3000);
     });
 
     test('C30: Create company by .pdf pitch deck upload', async ({ page }) => {
@@ -35,6 +36,7 @@ test.describe('Pipeline Tests', () => {
         await page.waitForLoadState('networkidle');
         await pipelinePage.addCompanyByUploadingPitchDeck('test-data/pitchDecks/Buddy.ai Series A Teaser Deck (2).pdf');
         await expect(page.getByText('Buddy.ai Series A Teaser Deck (2).pdf')).toBeVisible();
+        await page.waitForTimeout(3000);
     });
 
     test('C321: Add company by docSend link', async ({ page }) => {
@@ -42,6 +44,7 @@ test.describe('Pipeline Tests', () => {
         await page.waitForLoadState('networkidle');
         await pipelinePage.addCompanyByDockSendLink('https://docsend.com/view/hvezdmir99m7sxb6');
         await expect(pipelinePage.uploadContainer).toBeVisible();
+        await page.waitForTimeout(3000);
     });
 
     test('C29: Click Add Company button', async ({ page }) => {

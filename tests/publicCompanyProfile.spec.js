@@ -60,7 +60,7 @@ test.describe('Public Company Profile Tests', () => {
         const pagePromise = page.waitForEvent('popup');
         await companyPage.openWebsite();
         const newPage = await pagePromise;
-        await expect(newPage).toHaveURL(/https:\/\/www\.cellrep\.bio\//);
+        await expect(newPage).toHaveURL('https://cellrep.bio/'); 
     });
 
     test('C322: Click Similar Companies', async ({ page }) => {

@@ -38,7 +38,7 @@ exports.PipelinePage = class PipelinePage extends BasePage {
         this.contextMenuRemovebutton = page.locator('#pipelinePage-companyContextMenuOptionRemove');
         this.archiveModalButton = page.getByRole('button', { name: 'Archive' }); 
         this.removeModalButton = page.getByRole('button', { name: 'Remove' }); 
-        this.archivedCompanyContextMenu = page.locator('//*[@id="root"]/div/div/div/div[1]/div[3]/div/div[2]/div/div[9]/div/button');
+        this.archivedCompanyContextMenu = page.locator('#root > div > div > div > div._headerContainer_jkr2v_6 > div._pageContainer_jkr2v_48 > div._contentContainer_jkr2v_58 > div._content_jkr2v_1 > div > div:nth-child(2) > div > div:nth-child(9) > div > button');
         this.unarchiveButton = page.getByText('Unarchive');
 
     }

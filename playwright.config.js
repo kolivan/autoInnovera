@@ -14,7 +14,7 @@ dotenv.config({ path: `.env.${process.env.ENV || 'stage'}` });
  */
 module.exports = {
   globalSetup:'utils/globalSetup.js',
-  retries: 2,
+  //retries: 2,
   testDir: './tests',
   /* Run tests in files in parallel */
   /*fullyParallel: true,
