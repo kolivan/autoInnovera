@@ -1,5 +1,6 @@
 const { BasePage } = require("./basePage");
 const { Header } = require("./header");
+const { Tags } = require("./tags");
 
 let header;
 
@@ -7,7 +8,8 @@ exports.PipelinePage = class PipelinePage extends BasePage {
 
     constructor(page) {
         super(page, '/dashboard');
-        header = new Header(page);
+        this.header = new Header(page);
+        this.tags = new Tags(page);
         this.pipelineSelector = page.locator('//*[@id="pipelinePage-pipelineDropdown"]/button');
         this.addPipeline = page.getByRole('button', { name: 'Add Pipeline' });
         this.pipelineNameInput = page.getByPlaceholder('Pipeline name');
@@ -36,11 +38,12 @@ exports.PipelinePage = class PipelinePage extends BasePage {
         this.contextCardMenuButton = page.locator('#pipelinePage-companyContextMenuButton').nth(0);
         this.contextMenuArchive = page.locator('#pipelinePage-companyContextMenuOptionArchive');
         this.contextMenuRemovebutton = page.locator('#pipelinePage-companyContextMenuOptionRemove');
+        this.contextMenuAddTag = page.locator('#pipelinePage-companyContextMenuOptionTag');
         this.archiveModalButton = page.getByRole('button', { name: 'Archive' }); 
         this.removeModalButton = page.getByRole('button', { name: 'Remove' }); 
         this.archivedCompanyContextMenu = page.locator('#root > div > div > div > div._headerContainer_jkr2v_6 > div._pageContainer_jkr2v_48 > div._contentContainer_jkr2v_58 > div._content_jkr2v_1 > div > div:nth-child(2) > div > div:nth-child(9) > div > button');
         this.unarchiveButton = page.getByText('Unarchive');
-
+        this.pipelineFortesting = page.getByRole('button', { name: 'Pipeline for testing' });
     }
 
 
@@ -49,8 +52,8 @@ exports.PipelinePage = class PipelinePage extends BasePage {
     }
 
     async openPipelinePageFromHeader(){
-        await header.openDiscoverPageFromHeader();
-        await header.openPipelinePageFromHeader();
+        await this.header.openDiscoverPageFromHeader();
+        await this.header.openPipelinePageFromHeader();
     }
 
     async addNewPipeline(pipelineName) {
@@ -58,6 +61,11 @@ exports.PipelinePage = class PipelinePage extends BasePage {
         await this.addPipeline.click();
         await this.pipelineNameInput.fill(pipelineName);
         await this.addPipelineButton.click();
+    }
+
+    async openPipelineForTesting(){
+        await this.pipelineSelector.click();
+        await this.pipelineFortesting.click();
     }
 
     async addCompanyByDockSendLink(link) {
@@ -115,5 +123,17 @@ exports.PipelinePage = class PipelinePage extends BasePage {
         await this.contextCardMenuButton.click();
         await this.contextMenuRemovebutton.click();
         await this.removeModalButton.click();
+    }
+
+    async addTagToCompany(tag){
+        await this.contextCardMenuButton.click();
+        await this.contextMenuAddTag.click();
+        await this.tags.addTag(tag);
+    }
+
+    async deleteTagFromCompany(){
+        await this.contextCardMenuButton.click();
+        await this.contextMenuAddTag.click();
+        await this.tags.deleteTag();
     }
 }

@@ -4,6 +4,7 @@ exports.EmailClient = class EmailClient {
     constructor(request) {
      this.baseUrl = 'https://api.mailinator.com';
      this.messageId = '';
+     this.token = 'e56872c7a62d403084d4a6c286ba07bb';
     }
     
     async getEmails() {
@@ -11,7 +12,7 @@ exports.EmailClient = class EmailClient {
     let response = await this.request.get(`${this.baseUrl}/api/v2/domains/private/inboxes`, {
      headers: this.standardHeaders,
      params: {
-        token: '1199bbe13bba45c29f0b3501205c799a'
+        token: this.token
      },
     })
     const responceBody = await response.text();
@@ -24,7 +25,7 @@ exports.EmailClient = class EmailClient {
     let response = await this.request.get(`${this.baseUrl}/api/v2/domains/private/inboxes`, {
      headers: this.standardHeaders,
      params: {
-        token: '1199bbe13bba45c29f0b3501205c799a'
+        token: this.token
      },
     });
     const jsonObject = await response.json();
@@ -39,7 +40,7 @@ exports.EmailClient = class EmailClient {
     let response = await this.request.get(`${this.baseUrl}/api/v2/domains/private/inboxes/testinbox/messages/${emailId}/links`, {
      headers: this.standardHeaders,
      params: {
-        token: '1199bbe13bba45c29f0b3501205c799a'
+        token: this.token
      },
     })
     const jsonObject = await response.json();
@@ -56,7 +57,7 @@ exports.EmailClient = class EmailClient {
       let response = await this.request.get(`${this.baseUrl}/api/v2/domains/private/inboxes/testinbox/messages/${emailId}/links`, {
        headers: this.standardHeaders,
        params: {
-          token: '1199bbe13bba45c29f0b3501205c799a'
+          token: this.token
        },
       })
       const jsonObject = await response.json();
@@ -75,7 +76,7 @@ exports.EmailClient = class EmailClient {
       let response = await this.request.delete(`${this.baseUrl}/api/v2/domains/private/inboxes`, {
        headers: this.standardHeaders,
        params: {
-          token: '1199bbe13bba45c29f0b3501205c799a'
+          token: this.token
        },
       })
       const responceBody = await response.text();

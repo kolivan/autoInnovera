@@ -1,5 +1,6 @@
 const { BasePage } = require("./basePage");
 const { Header } = require("./header");
+const { Tags } = require("./tags");
 
 let header;
 exports.DiscoverPage = class DiscoverPage extends BasePage {
@@ -7,8 +8,11 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
     constructor(page) {
         super(page, '/companies');
         header = new Header(page);
-        this.firstCheckboxSelector = page.locator('._checkboxContainer_1qqcf_12 > ._checkboxContainer_uethg_1 > ._checkbox_uethg_1').first();
-        this.secondCheckBoxSelector = page.locator('div:nth-child(2) > ._checkboxContainer_1qqcf_12 > ._checkboxContainer_uethg_1 > ._checkbox_uethg_1');
+        this.tags = new Tags(page);
+        this.firstCheckboxSelector = page.locator('.discoverPage-companyCheckbox').first();
+        this.secondCheckBoxSelector = page.locator('.discoverPage-companyCheckbox').nth(1);
+        this.thirdCheckBoxSelector = page.locator('.discoverPage-companyCheckbox').nth(2);
+        this.fourthCheckBoxSelector = page.locator('.discoverPage-companyCheckbox').nth(3);
         this.addToPipelineButton = page.locator('#discoverPage-addToPipelineButton');
         this.addTagButton = page.locator('#discoverPage-tagButton');
         this.filterButton = page.locator('#discoverPage-filterButton');
@@ -31,6 +35,7 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
         this.addTagButton = page.locator('#discoverPage-tagButton');
         this.tagSaveButton = page.getByRole('button', { name: 'Save' });
         this.addTagField = page.getByPlaceholder('Add tags');
+        this.existingTagOption = page.getByText('heartbeat');
         this.deleteTagIcon = page.locator('#root > div._Modal_1ypr0_3._isOpen_1ypr0_74 > div > div > div._modalContent_1ypr0_117 > div:nth-child(1) > div._tagList_i1usn_23 > div > svg');
     }
 
@@ -40,6 +45,13 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
 
     async addCompanyToPipeline() {
         await this.firstCheckboxSelector.click();
+        await this.addToPipelineButton.click();
+        await this.addToPipelineMobalButton.click();
+    }
+
+    async addTwoCompaniesToPipeline(){
+        await this.secondCheckBoxSelector.click();
+        await this.thirdCheckBoxSelector.click();
         await this.addToPipelineButton.click();
         await this.addToPipelineMobalButton.click();
     }
@@ -83,17 +95,16 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
 
     async addTag(tag){
         await this.firstCheckboxSelector.click();
-        await this.addTagButton.click();
-        await this.addTagField.fill(tag);
-        await this.addTagField.press('Enter');
-        await this.page.waitForTimeout(200);
-        await this.tagSaveButton.click();
+        await this.tags.addTagOnDiscoverPage(tag);
+    }
+
+    async addExistingTag(){
+        await this.secondCheckBoxSelector.click();
+        await this.tags.addExistingTagOnDiscoverPage();
     }
 
     async deleteTag(){
         await this.firstCheckboxSelector.click();
-        await this.addTagButton.click();
-        await this.deleteTagIcon.click();
-        await this.tagSaveButton.click();
+        await this.tags.deleteTagOnDiscoverPage();
     }
 }

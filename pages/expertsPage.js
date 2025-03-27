@@ -13,7 +13,6 @@ exports.ExpertsPage = class ExpertsPage extends BasePage {
         this.addExpertButton = page.getByRole('button', { name: 'Add Expert' });
         this.emailField = page.getByPlaceholder('Enter email');
         this.sendInvite = page.getByRole('button', { name: 'Send invite' });
-        
     }
 
     async openUsersPageFromHeader(){

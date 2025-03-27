@@ -6,12 +6,14 @@ const { generatedUserData } = require('../test-data/userData');
 let signinPage;
 let pipelinePage;
 const userData = generatedUserData();
+let tagName;
 
 test.describe('Pipeline Tests', () => {
     test.beforeEach(async ({ page }) => {
         signinPage = new SigninPage(page);
         await signinPage.open();
         await signinPage.signIn(process.env.INVESTOR_USER, process.env.PASSWORD);
+        tagName = userData.randomTag
         // wait for navigation and dashboard load
         await page.waitForURL(/.*\/dashboard.*/);
         await page.waitForLoadState('networkidle');
@@ -111,6 +113,24 @@ test.describe('Pipeline Tests', () => {
         await page.waitForLoadState('networkidle');
         await pipelinePage.renameStage('New stage');
         await expect(page.locator('div').filter({ hasText: /^New stage$/ }).nth(1)).toBeVisible();
+    });
+
+    test('C41: Add tag to company', async ({ page }) => {
+        await pipelinePage.open();
+        await pipelinePage.openPipelineForTesting();
+        await page.waitForLoadState('networkidle');
+        await pipelinePage.addTagToCompany(tagName);
+        await pipelinePage.openCompanyProfilepage();
+        await expect(page.getByText(tagName)).toBeVisible();
+    });
+
+    test('C526: Delete a tag', async ({ page }) => {
+        await pipelinePage.open();
+        await pipelinePage.openPipelineForTesting();
+        await page.waitForLoadState('networkidle');
+        await pipelinePage.deleteTagFromCompany();
+        await pipelinePage.openCompanyProfilepage();
+        await expect(page.getByText(tagName)).not.toBeVisible();
     });
 });
 

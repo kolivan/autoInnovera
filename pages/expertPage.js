@@ -52,4 +52,8 @@ exports.ExpertPage = class ExpertPage extends BasePage {
     async deleteNote(){
         await this.notes.deleteNote();
     }
+
+    async editNote(note){
+        await this.notes.editNote(note);
+    }
 }

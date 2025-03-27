@@ -66,6 +66,15 @@ test.describe('Expert Tests', () => {
         await expect(page.getByText('blabla')).toBeVisible();
     });
 
+    test('C210: Edit a note', async ({ page }) => {
+        await expertPage.openFirstCompany();
+        await page.waitForURL(/.*\/portfolio-company-profile.*/);
+        await expertPage.openNotes();
+        await page.waitForLoadState('networkidle');
+        await expertPage.editNote('blablatest');
+        await expect(page.getByText('blablatest')).toBeVisible();
+    });
+
     test('C200: Upload file to data room', async ({ page }) => {
         await expertPage.openFirstCompany();
         await page.waitForURL(/.*\/portfolio-company-profile.*/);
@@ -81,7 +90,7 @@ test.describe('Expert Tests', () => {
         await page.waitForLoadState('networkidle');
         await expertPage.openNotes();
         await expertPage.deleteNote();
-        await expect(page.getByText('blabla')).not.toBeVisible();
+        await expect(page.getByText('blablatest')).not.toBeVisible();
         await expect(page.getByText('Note deleted successfully')).toBeVisible();
     });
 });

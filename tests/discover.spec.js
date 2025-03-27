@@ -12,13 +12,13 @@ test.describe('Discover Page Tests', () => {
         signinPage = new SigninPage(page);
         await signinPage.open();
         await signinPage.signIn(process.env.INVESTOR_USER, process.env.PASSWORD);
-        await page.waitForURL(/.*\/dashboard.*/);
         await page.waitForLoadState('networkidle');
+        await page.waitForURL(/.*\/dashboard.*/);
         discoverPage = new DiscoverPage(page);
     });
 
     test.describe('Navigation', () => {
-        test('C65: Open company page from header', async ({ page }) => {
+        test('C65: Open companies page from header', async ({ page }) => {
             await discoverPage.openDiscoverPageFromHeader();
             await expect(page).toHaveURL(/.*\/companies.*/);
         });
@@ -67,6 +67,11 @@ test.describe('Discover Page Tests', () => {
         test('C80: Add company which already in pipeline to pipeline', async ({ page }) => {
             await discoverPage.addCompanyToPipeline();
             await expect(discoverPage.notification).toContainText("0 records added successfully to the pipeline, and 1 are already in the pipeline.");
+        });
+
+        test('C79: Add 2 companies to to pipeline', async ({ page }) => {
+            await discoverPage.addTwoCompaniesToPipeline();
+            await expect(discoverPage.notification).toContainText("2 records added successfully to the pipeline, and 0 are already in the pipeline.");
         });
     });
 
@@ -155,6 +160,13 @@ test.describe('Discover Page Tests', () => {
         test('C83: Add one tag to several companies', async ({ page }) => {
             await discoverPage.selectTwoCompanies();
             await expect(discoverPage.addTagButton).toBeDisabled();
+        });
+
+        test('C133: Add existing tag to company', async ({ page }) => {
+            await discoverPage.addExistingTag();
+            await expect(page.getByText('Tags assigned successfully')).toBeVisible();
+            await page.getByText('Korea Electric Power Corporation').nth(2).click();
+            await expect(page.locator('div').filter({ hasText: 'heartbeat' }).nth(1)).toBeVisible();
         });
 
         test('C134: Delete a tag', async ({ page }) => {
