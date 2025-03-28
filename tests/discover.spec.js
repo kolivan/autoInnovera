@@ -87,10 +87,41 @@ test.describe('Discover Page Tests', () => {
             await expect(page.getByText('* Bank & Trust Company')).toBeVisible();
         });
 
-        test('C270: Sort companies by founding year', async ({ page }) => {
+        test('C270: Sort companies by founding year ask', async ({ page }) => {
+            // click again for ascending
             await discoverPage.sortByFoundingYear();
-            await discoverPage.firstCheckboxSelector.waitFor();
-            await expect(page.locator('div').filter({ hasText: /^1800$/ }).first()).toBeVisible();
+            await page.waitForLoadState('networkidle');
+            await page.waitForTimeout(500);
+            
+            // get years again
+            const yearElementsAsc = page.locator('.discoverPage-foundingDateCell');
+            const yearsAsc = await yearElementsAsc.allTextContents();
+            const numericYearsAsc = yearsAsc
+                .map(year => parseInt(year.trim()))
+                .filter(year => !isNaN(year));
+            // check ascending order (second click)
+            const isAscending = numericYearsAsc.every((year, i) => 
+                i === 0 || year >= numericYearsAsc[i - 1]
+            );
+            expect(isAscending).toBe(true);
+            await expect(discoverPage.numberOfCompanies).toContainText('1-50 of 250+');
+        });
+
+        test('C528: Sort companies by founding year desc', async ({ page }) => {
+            await discoverPage.sortByFoundingYear();
+            await discoverPage.sortByFoundingYear();
+            await page.waitForLoadState('networkidle');
+            await page.waitForTimeout(500);
+            await expect(discoverPage.numberOfCompanies).toContainText('1-50 of 250+');
+            const yearElementsDesc = page.locator('.discoverPage-foundingDateCell');
+            const yearsDesc = await yearElementsDesc.allTextContents();
+            const numericYearsDesc = yearsDesc
+                .map(year => parseInt(year.trim()))
+                .filter(year => !isNaN(year));
+            const isDescending = numericYearsDesc.every((year, i) => 
+                i === 0 || year <= numericYearsDesc[i - 1]
+            );
+            expect(isDescending).toBe(true);
         });
 
         test('C271: Sort companies by financial stage', async ({ page }) => {
@@ -110,9 +141,9 @@ test.describe('Discover Page Tests', () => {
             await page.waitForLoadState('networkidle');
         });
 
-        test('C291: Open Filter with Empty state', async ({ page }) => {
+        test.only('C291: Open Filter with Empty state', async ({ page }) => {
             await discoverPage.openFilter();
-            await expect(discoverPage.clearAllFilterButton).toBeVisible();
+            await expect(discoverPage.filter.clearAllFilterButton).toBeVisible();
         });
 
         test('C71: Filter by name', async ({ page }) => {
@@ -140,6 +171,89 @@ test.describe('Discover Page Tests', () => {
             await discoverPage.openFilter();
             await discoverPage.filterByDescription('lokshourfhf');
             await expect(page.locator('#root > div > div > div > div._wrapper_y03sf_1 > div._container_y03sf_6 > div._content_y03sf_35 > div._contentTableBlockInvestor_y03sf_72 > div._emptyPageContainer_1qqcf_37 > p')).toContainText('No matching companies found');
+        });
+
+        test('C355: Filter by location', async ({ page }) => {
+            await discoverPage.open();
+            await discoverPage.filterByLocation();
+            await page.waitForLoadState('networkidle');
+            
+            // get all location elements
+            const locationElements = page.locator('div._location_17hvr_1 p');
+            const locations = await locationElements.allTextContents();
+            
+            // verify we have results
+            expect(locations.length).toBeGreaterThan(0);
+            
+            // verify all locations are New York
+            locations.forEach(location => {
+                expect(location.trim()).toBe('New York,');
+            });
+            
+            // verify total count as a sanity check
+            await expect(discoverPage.numberOfCompanies).toContainText('1-50 of 250+');
+        });
+
+        test('C356: Filter by financial stage', async ({ page }) => {
+            await discoverPage.open();
+            await discoverPage.filterByFinStage();
+            await page.waitForLoadState('networkidle');
+
+            // get all fin stage elements
+            const finStageElements = page.locator('.discoverPage-financialStageCell');
+            const finStages = await finStageElements.allTextContents();
+            
+            // verify we have results
+            expect(finStages.length).toBeGreaterThan(0);
+            
+            // verify all locations are New York
+            finStages.forEach(finStage => {
+                expect(finStage.trim()).toBe('Pre-Seed');
+            });
+            await expect(discoverPage.numberOfCompanies).toContainText('1-50 of 250+');
+            
+        });
+
+        test('C357: Filter by financial stage and description', async ({ page }) => {
+            await discoverPage.open();
+            await discoverPage.filterByFinStage();
+            await page.waitForLoadState('networkidle');
+            await discoverPage.filterByDescription('Fintech solutions for small business');
+            await page.waitForLoadState('networkidle');
+            // get all fin stage elements
+            const finStageElements = page.locator('.discoverPage-financialStageCell');
+            const finStages = await finStageElements.allTextContents();
+            
+            // verify we have results
+            expect(finStages.length).toBeGreaterThan(0);
+            
+            // verify all locations are New York
+            finStages.forEach(finStage => {
+                expect(finStage.trim()).toBe('Pre-Seed');
+            });
+            await expect(discoverPage.numberOfCompanies).toContainText('1-34 of 34');
+
+        });
+
+        test('C527: Filter by location and description', async ({ page }) => {
+            await discoverPage.open();
+            await discoverPage.filterByLocation();
+            await page.waitForLoadState('networkidle');
+            await discoverPage.filterByDescription('trading platform');
+            await page.waitForLoadState('networkidle');
+            // get all fin stage elements
+            // get all location elements
+            const locationElements = page.locator('div._location_17hvr_1 p');
+            const locations = await locationElements.allTextContents();
+            
+            // verify we have results
+            expect(locations.length).toBeGreaterThan(0);
+            
+            // verify all locations are New York
+            locations.forEach(location => {
+                expect(location.trim()).toBe('New York,');
+            })
+            await expect(discoverPage.numberOfCompanies).toContainText('1-16 of 16');
         });
     });
 

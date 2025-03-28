@@ -1,6 +1,7 @@
 const { BasePage } = require("./basePage");
 const { Header } = require("./header");
 const { Tags } = require("./tags");
+const { Filter } = require("./filters");
 
 let header;
 exports.DiscoverPage = class DiscoverPage extends BasePage {
@@ -9,13 +10,13 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
         super(page, '/companies');
         header = new Header(page);
         this.tags = new Tags(page);
+        this.filter = new Filter(page);
         this.firstCheckboxSelector = page.locator('.discoverPage-companyCheckbox').first();
         this.secondCheckBoxSelector = page.locator('.discoverPage-companyCheckbox').nth(1);
         this.thirdCheckBoxSelector = page.locator('.discoverPage-companyCheckbox').nth(2);
         this.fourthCheckBoxSelector = page.locator('.discoverPage-companyCheckbox').nth(3);
         this.addToPipelineButton = page.locator('#discoverPage-addToPipelineButton');
         this.addTagButton = page.locator('#discoverPage-tagButton');
-        this.filterButton = page.locator('#discoverPage-filterButton');
         this.sortByNameButton = page.locator('#discoverPage-companyNameSort');
         this.sortByFoundingStage = page.locator('#discoverPage-financialStageSort');
         this.sortByTotalFundingButton = page.locator('#discoverPage-totalFundingSort');
@@ -25,12 +26,8 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
         this.goNextPaginationButton = page.locator('#discoverPage-pagination-goNextButton');
         this.goPrevPaginationButton = page.locator('#discoverPage-pagination-goPrevButton');
         this.paginationChangePageButton = page.locator('#discoverPage-pagination-changePageButton');
-        this.filterButton = page.locator('#discoverPage-filterButton');
         this.addAndConditionButton = page.locator('#discoverPage-filtersV2-matchAll-addConditionButton');
         this.addOrConditionButton = page.locator('#discoverPage-filtersV2-matchAny-addConditionButton');
-        this.clearAllFilterButton = page.locator('#discoverPage-filtersV2-clearAllButton');
-        this.filterByDescriptionInput = page.locator('#discoverPage-filtersV2-descriptionInput');
-        this.applyFilterButton = page.locator('#discoverPage-filtersV2-saveButton');
         this.numberOfCompanies = page.locator('#discoverPage-pagination-companiesPool');
         this.addTagButton = page.locator('#discoverPage-tagButton');
         this.tagSaveButton = page.getByRole('button', { name: 'Save' });
@@ -81,7 +78,7 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
     }
 
     async openFilter(){
-        await this.filterButton.click();
+        await this.filter.openFilterOnDiscoverPage();
     }
 
     async selectTwoCompanies(){
@@ -90,7 +87,7 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
     }
 
     async filterByDescription(description){
-        await this.filterByDescriptionInput.fill(description);
+        await this.filter.filterByDescription(description);
     }
 
     async addTag(tag){
@@ -106,5 +103,13 @@ exports.DiscoverPage = class DiscoverPage extends BasePage {
     async deleteTag(){
         await this.firstCheckboxSelector.click();
         await this.tags.deleteTagOnDiscoverPage();
+    }
+
+    async filterByLocation(location){
+        await this.filter.filterByLocation(location);
+    }
+
+    async filterByFinStage(){
+        await this.filter.filterByFinStage();
     }
 }

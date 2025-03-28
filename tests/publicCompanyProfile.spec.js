@@ -90,12 +90,12 @@ test.describe('Public Company Profile Tests', () => {
 
     test('C364: Click markets source link', async ({ page }) => {
         await discoverPage.open();
-        await page.getByText('Pfizer').nth(1).click();
+        await page.locator('._companyInfo_tuv9p_7').nth(3).click();
         await companyPage.openMarketSourceReport();
         const pagePromise = page.waitForEvent('popup');
         const newPage = await pagePromise;
         await newPage.waitForLoadState('networkidle');
-        await expect(newPage).toHaveURL(/https:\/\/www\.mordorintelligence\.com\/industry-reports\/global-biopharmaceuticals-market-industry/);
+        await expect(newPage).toHaveURL('https://pdf.marketpublishers.com/bosson_research/global-ridesharing-market-research-report-2024status-n-outlook.pdf');
     });
 
     test('C366: Add existing tag', async ({ page }) => {

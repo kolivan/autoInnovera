@@ -41,6 +41,7 @@ test.describe('Portfolio Company Profile Tests', () => {
         await companyPage.openDataRoom();
         await companyPage.uploadFileToDataRoom('test-data/pitchDecks/Buddy.ai Series A Teaser Deck (2).pdf');
         await expect(page.locator('#root > div > div > div > div._container_aqqfd_1 > div._contentContainer_aqqfd_62 > div._container_1y1ba_1 > div > div._container_1vl30_1._containerExpanded_1vl30_69')).toBeVisible();
+        await page.waitForTimeout(500);
     });
 
     test('C239: Add note', async ({ page }) => {
@@ -137,11 +138,6 @@ test.describe('Portfolio Company Profile Tests', () => {
     });
 });
 
-/*test('C95: Add company to the pipeline', async ({ page }) => {
-    await companyPage.open('company-profile/334209'); 
-    await companyPage.addCompanyToThePipeline();
-    await expect(page4.getByText('50 of 200')).toBeVisible();
-});*/
 
 
 
