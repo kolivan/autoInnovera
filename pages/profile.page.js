@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
-const { Header } = require("./header");
-const { BasePage } = require("./basePage");
+const { Header } = require("./components/header");
+const { BasePage } = require("./base.page");
 
 let header;
 

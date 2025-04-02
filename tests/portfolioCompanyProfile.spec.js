@@ -1,8 +1,8 @@
 const { test, expect } = require('@playwright/test');
-const { DiscoverPage } = require('../pages/discoverPage');
-const { SigninPage } = require('../pages/signInPage');
-const { CompanyPage } = require('../pages/companyPage');
-const { PipelinePage } = require('../pages/pipelinePage');
+const { DiscoverPage } = require('../pages/discover.page');
+const { SigninPage } = require('../pages/signIn.page');
+const { CompanyPage } = require('../pages/company.page');
+const { PipelinePage } = require('../pages/pipeline.page');
 const { generatedUserData } = require('../test-data/userData');
 
 let signinPage;
@@ -41,7 +41,7 @@ test.describe('Portfolio Company Profile Tests', () => {
         await companyPage.openDataRoom();
         await companyPage.uploadFileToDataRoom('test-data/pitchDecks/Buddy.ai Series A Teaser Deck (2).pdf');
         await expect(page.locator('#root > div > div > div > div._container_aqqfd_1 > div._contentContainer_aqqfd_62 > div._container_1y1ba_1 > div > div._container_1vl30_1._containerExpanded_1vl30_69')).toBeVisible();
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(1000);
     });
 
     test('C239: Add note', async ({ page }) => {
@@ -97,8 +97,8 @@ test.describe('Portfolio Company Profile Tests', () => {
         await pipelinePage.openPipelineForTesting();
         await pipelinePage.openCompanyProfilepage();
         await page.waitForLoadState('networkidle');
-        const pagePromise = page.waitForEvent('popup');
         await companyPage.clickLinkedInIconOnCompanyPage();
+        const pagePromise = page.waitForEvent('popup');
         const newPage = await pagePromise;
         await expect(newPage).toHaveURL(/https:\/\/www\.linkedin\.com\/company\/verizon/);
     });
@@ -107,8 +107,8 @@ test.describe('Portfolio Company Profile Tests', () => {
         await pipelinePage.openPipelineForTesting();
         await pipelinePage.openCompanyProfilepage();
         await page.waitForLoadState('networkidle');
-        const pagePromise = page.waitForEvent('popup');
         await companyPage.clickWebsiteLinkOnCompanyPage();
+        const pagePromise = page.waitForEvent('popup');
         const newPage = await pagePromise;
         await expect(newPage).toHaveURL('https://www.verizon.com/');
     });

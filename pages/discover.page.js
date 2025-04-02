@@ -1,7 +1,7 @@
-const { BasePage } = require("./basePage");
-const { Header } = require("./header");
-const { Tags } = require("./tags");
-const { Filter } = require("./filters");
+const { BasePage } = require("./base.page");
+const { Header } = require("./components/header");
+const { Tags } = require("./components/tags");
+const { Filter } = require("./components/filters");
 
 let header;
 exports.DiscoverPage = class DiscoverPage extends BasePage {

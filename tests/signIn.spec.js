@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { SigninPage } = require('../pages/signInPage');
+const { SigninPage } = require('../pages/signIn.page');
 const { EmailClient } = require('../utils/mailinator');
 const {generatedUserData} = require('../test-data/userData');
 

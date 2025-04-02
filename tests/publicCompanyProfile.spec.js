@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const { DiscoverPage } = require('../pages/discoverPage');
-const { SigninPage } = require('../pages/signInPage');
-const { CompanyPage } = require('../pages/companyPage');
+const { DiscoverPage } = require('../pages/discover.page');
+const { SigninPage } = require('../pages/signIn.page');
+const { CompanyPage } = require('../pages/company.page');
 const { generatedUserData } = require('../test-data/userData');
 
 let signinPage;
@@ -60,7 +60,7 @@ test.describe('Public Company Profile Tests', () => {
         const pagePromise = page.waitForEvent('popup');
         await companyPage.openWebsite();
         const newPage = await pagePromise;
-        await expect(newPage).toHaveURL('https://cellrep.bio/'); 
+        await expect(newPage).toHaveURL('https://www.cellrep.bio/'); 
     });
 
     test('C365: Click Similar Companies', async ({ page }) => {

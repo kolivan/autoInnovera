@@ -1,11 +1,11 @@
 const { test, expect } = require('@playwright/test');
-const { RegistrationPage } = require('../pages/registrationPage');
+const { RegistrationPage } = require('../pages/registration.page');
 const {generatedUserData} = require('../test-data/userData');
 const { EmailClient } = require('../utils/mailinator');
-const { UsersPage } = require('../pages/usersPage');
-const { ExpertsPage } = require('../pages/expertsPage');
-const { SigninPage } = require('../pages/signInPage');
-const { DiscoverPage } = require('../pages/discoverPage');
+const { UsersPage } = require('../pages/users.page');
+const { ExpertsPage } = require('../pages/experts.page');
+const { SigninPage } = require('../pages/signIn.page');
+const { DiscoverPage } = require('../pages/discover.page');
 
 let signinPage;
 let usersPage;

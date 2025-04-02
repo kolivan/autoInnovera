@@ -1,6 +1,6 @@
-const { BasePage } = require("./basePage");
-const { DataRoom } = require("./dataRoom");
-const { Notes } = require("./notes");
+const { BasePage } = require("./base.page");
+const { DataRoom } = require("./components/dataRoom");
+const { Notes } = require("./components/notes");
 
 exports.ExpertPage = class ExpertPage extends BasePage {
 

@@ -1,6 +1,6 @@
-const { BasePage } = require("./basePage");
+const { BasePage } = require("./base.page");
 const {request} = require('@playwright/test');
-const { Header } = require('./header');
+const { Header } = require('./components/header');
 
 let header;
 

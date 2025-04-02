@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
-const { PipelinePage } = require('../pages/pipelinePage');
-const { SigninPage } = require('../pages/signInPage');
+const { PipelinePage } = require('../pages/pipeline.page');
+const { SigninPage } = require('../pages/signIn.page');
 const { generatedUserData } = require('../test-data/userData');
 
 let signinPage;

@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
-const { DiscoverPage } = require('../pages/discoverPage');
-const { SigninPage } = require('../pages/signInPage');
+const { DiscoverPage } = require('../pages/discover.page');
+const { SigninPage } = require('../pages/signIn.page');
 const { generatedUserData } = require('../test-data/userData');
 
 let signinPage;
@@ -141,7 +141,7 @@ test.describe('Discover Page Tests', () => {
             await page.waitForLoadState('networkidle');
         });
 
-        test.only('C291: Open Filter with Empty state', async ({ page }) => {
+        test('C291: Open Filter with Empty state', async ({ page }) => {
             await discoverPage.openFilter();
             await expect(discoverPage.filter.clearAllFilterButton).toBeVisible();
         });

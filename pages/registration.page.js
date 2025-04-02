@@ -1,4 +1,4 @@
-const { BasePage } = require("./basePage");
+const { BasePage } = require("./base.page");
 const {request} = require('@playwright/test');
 const { RegistrationAPI } = require('../utils/api-helpers/registrationAPI');
 

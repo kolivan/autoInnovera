@@ -1,6 +1,6 @@
-const { BasePage } = require("./basePage");
-const { Header } = require("./header");
-const { Tags } = require("./tags");
+const { BasePage } = require("./base.page");
+const { Header } = require("./components/header");
+const { Tags } = require("./components/tags");
 
 let header;
 

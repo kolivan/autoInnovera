@@ -1,8 +1,8 @@
-const { BasePage } = require("./basePage");
-const { Header } = require("./header");
-const { DataRoom } = require("./dataRoom");
-const { Notes } = require("./notes");
-const { Tags } = require("./tags");
+const { BasePage } = require("./base.page");
+const { Header } = require("./components/header");
+const { DataRoom } = require("./components/dataRoom");
+const { Notes } = require("./components/notes");
+const { Tags } = require("./components/tags");
 
 
 exports.CompanyPage = class CompanyPage extends BasePage {
