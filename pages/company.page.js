@@ -115,4 +115,8 @@ exports.CompanyPage = class CompanyPage extends BasePage {
         await this.modifyTagsButton.click();
         await this.tags.addExistingTag();
     }
+
+    async deleteFileFromDataRoom(){
+        await this.dataRoom.deleteFileFromDataRoom();
+    }
 }

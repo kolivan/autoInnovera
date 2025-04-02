@@ -88,7 +88,7 @@ test.describe('Portfolio Company Profile Tests', () => {
         await page.waitForLoadState('networkidle');
         await companyPage.openDataRoom();
         await page.waitForLoadState('networkidle');
-        await companyPage.deleteFile();
+        await companyPage.deleteFileFromDataRoom();
         await expect(page.getByText('File successfully deleted')).toBeVisible();
     });
 
